@@ -15,7 +15,7 @@ case ${#PV[3]} in
 	;;
 esac
 
-PATCH_URI="mirror://sourceforge/mspgcc/${P}-20120125.patch"
+PATCH_URI="mirror://sourceforge/mspgcc/${P}-20120406.patch"
 PATCH_URI+=" config-rpath.patch"
 
 CYGCONF_ARGS="
@@ -33,5 +33,7 @@ src_install() {
 	rm -f ${D}/usr/lib/libiberty.a
 
 	# conflicts with native gcc
-	rm -fr ${D}/usr/share/{gcc-*,info,locale,man/man7}
+	rm -fr ${D}/usr/share/{info,locale,man/man7}
 }
+
+KEEP_LA_FILES="none"
