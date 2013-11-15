@@ -11,13 +11,23 @@ Objective-C, Fortran, Java, and Ada, as well as libraries for these languages
 (libstdc++, libgcj,...)."
 REQUIRES="msp430-binutils msp430-libc"
 HOMEPAGE="http://mspgcc.sourceforge.net/"
-SRC_URI="mirror://gnu/gcc/gcc-${VERSION%-*}/gcc-${VERSION-%*}.tar.bz2"
+SRC_URI="mirror://gnu/gcc/gcc-${VERSION%-*}/gcc-core-${VERSION%-*}.tar.bz2"
 SRC_DIR="gcc-${VERSION%-*}"
-PATCH_URI="mirror://sourceforge/mspgcc/${NAME}-${VERSION}.patch"
+PATCH_URI="
+	mirror://sourceforge/mspgcc/${NAME}-${VERSION}.patch
+	mirror://sourceforge/mspgcc/${NAME}-${VERSION}-sf3540953.patch
+	mirror://sourceforge/mspgcc/${NAME}-${VERSION}-sf3559978.patch
+	4.6.3-cygwin64.patch
+	4.6.3-lto-plugin-soname.patch
+	4.6.3-textdomain.patch
+	4.6.3-Wimplicit-decls.patch
+	4.6.3-pr54638.patch
+"
 
 CYGCONF_ARGS="
 	--enable-languages=c
 	--enable-version-specific-runtime-libs
+	--disable-libquadmath
 	--disable-libssp
 	--with-system-zlib
 "
@@ -30,7 +40,7 @@ src_install() {
 	rm -f ${D}/usr/lib/libiberty.a
 
 	# conflicts with native gcc
-	rm -fr ${D}/usr/share/{info,locale,man/man7}
+	rm -fr ${D}/usr/share/{info,man/man7}
 }
 
 KEEP_LA_FILES="none"

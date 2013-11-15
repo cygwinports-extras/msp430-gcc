@@ -1,0 +1,66 @@
+--- origsrc/gcc-4.6.3/config/dfp.m4	2010-09-10 06:39:49.000000000 -0500
++++ src/gcc-4.6.3/config/dfp.m4	2013-11-15 00:50:08.156815400 -0600
+@@ -22,7 +22,7 @@ Valid choices are 'yes', 'bid', 'dpd', a
+   case $1 in
+     powerpc*-*-linux* | i?86*-*-linux* | x86_64*-*-linux* | s390*-*-linux* | \
+     i?86*-*-mingw* | x86_64*-*-mingw* | \
+-    i?86*-*-cygwin*)
++    i?86*-*-cygwin* | x86_64*-*-cygwin*)
+       enable_decimal_float=yes
+       ;;
+     *)
+--- origsrc/gcc-4.6.3/gcc/config.build	2010-04-12 13:36:30.000000000 -0500
++++ src/gcc-4.6.3/gcc/config.build	2013-11-15 00:51:38.918006700 -0600
+@@ -75,7 +75,7 @@ case $build in
+     # IBM 360/370/390 Architecture
+     build_xm_defines='FATAL_EXIT_CODE=12'
+     ;;
+-  i[34567]86-*-cygwin* | i[34567]86-*-pe )
++  i[34567]86-*-cygwin* | i[34567]86-*-pe | x86_64-*-cygwin*)
+     build_xm_file=i386/xm-cygwin.h
+     build_exeext=.exe
+     ;;
+--- origsrc/gcc-4.6.3/gcc/config.host	2011-02-15 03:49:14.000000000 -0600
++++ src/gcc-4.6.3/gcc/config.host	2013-11-15 00:55:11.210149100 -0600
+@@ -211,7 +211,7 @@ case ${host} in
+         ;;
+     esac
+     ;;
+-  i[34567]86-*-pe | i[34567]86-*-cygwin*)
++  i[34567]86-*-pe | i[34567]86-*-cygwin* | x86_64-*-cygwin*)
+     host_xm_file=i386/xm-cygwin.h
+     out_host_hook_obj=host-cygwin.o
+     host_xmake_file="${host_xmake_file} i386/x-cygwin"
+--- origsrc/gcc-4.6.3/gcc/configure	2013-11-15 00:46:40.401932500 -0600
++++ src/gcc-4.6.3/gcc/configure	2013-11-15 00:49:56.304137500 -0600
+@@ -6897,7 +6897,7 @@ else
+   case $target in
+     powerpc*-*-linux* | i?86*-*-linux* | x86_64*-*-linux* | s390*-*-linux* | \
+     i?86*-*-mingw* | x86_64*-*-mingw* | \
+-    i?86*-*-cygwin*)
++    i?86*-*-cygwin* | x86_64*-*-cygwin*)
+       enable_decimal_float=yes
+       ;;
+     *)
+--- origsrc/gcc-4.6.3/libdecnumber/configure	2010-09-10 06:39:49.000000000 -0500
++++ src/gcc-4.6.3/libdecnumber/configure	2013-11-15 00:51:03.734994300 -0600
+@@ -4604,7 +4604,7 @@ else
+   case $target in
+     powerpc*-*-linux* | i?86*-*-linux* | x86_64*-*-linux* | s390*-*-linux* | \
+     i?86*-*-mingw* | x86_64*-*-mingw* | \
+-    i?86*-*-cygwin*)
++    i?86*-*-cygwin* | x86_64*-*-cygwin*)
+       enable_decimal_float=yes
+       ;;
+     *)
+--- origsrc/gcc-4.6.3/libgcc/configure	2011-01-25 22:19:58.000000000 -0600
++++ src/gcc-4.6.3/libgcc/configure	2013-11-15 00:50:28.544981600 -0600
+@@ -3684,7 +3684,7 @@ else
+   case $host in
+     powerpc*-*-linux* | i?86*-*-linux* | x86_64*-*-linux* | s390*-*-linux* | \
+     i?86*-*-mingw* | x86_64*-*-mingw* | \
+-    i?86*-*-cygwin*)
++    i?86*-*-cygwin* | x86_64*-*-cygwin*)
+       enable_decimal_float=yes
+       ;;
+     *)

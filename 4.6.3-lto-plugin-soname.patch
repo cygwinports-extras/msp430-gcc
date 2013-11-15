@@ -1,0 +1,50 @@
+--- origsrc/gcc-4.6.3/gcc/config.host	2011-02-15 03:49:14.000000000 -0600
++++ src/gcc-4.6.3/gcc/config.host	2013-11-15 00:55:11.210149100 -0600
+@@ -215,14 +215,14 @@ case ${host} in
+     out_host_hook_obj=host-cygwin.o
+     host_xmake_file="${host_xmake_file} i386/x-cygwin"
+     host_exeext=.exe
+-    host_lto_plugin_soname=cyglto_plugin-0.dll
++    host_lto_plugin_soname=cyglto_plugin.dll
+     ;;
+   i[34567]86-*-mingw32*)
+     host_xm_file=i386/xm-mingw32.h
+     host_xmake_file="${host_xmake_file} i386/x-mingw32"
+     host_exeext=.exe
+     out_host_hook_obj=host-mingw32.o
+-    host_lto_plugin_soname=liblto_plugin-0.dll
++    host_lto_plugin_soname=liblto_plugin.dll
+     ;;
+   x86_64-*-mingw*)
+     use_long_long_for_widest_fast_int=yes
+@@ -231,7 +231,7 @@ case ${host} in
+     host_xmake_file="${host_xmake_file} i386/x-mingw32"
+     host_exeext=.exe
+     out_host_hook_obj=host-mingw32.o
+-    host_lto_plugin_soname=liblto_plugin-0.dll
++    host_lto_plugin_soname=liblto_plugin.dll
+     ;;
+   i[34567]86-*-uwin*)
+     echo "*** UWIN may not be used as a host platform because"
+--- origsrc/gcc-4.6.3/lto-plugin/Makefile.am	2012-01-03 07:15:21.000000000 -0600
++++ src/gcc-4.6.3/lto-plugin/Makefile.am	2013-11-15 00:54:32.143914600 -0600
+@@ -22,7 +22,7 @@ liblto_plugin_la_SOURCES = lto-plugin.c
+ liblto_plugin_la_LIBADD = \
+ 	$(if $(wildcard ../libiberty/pic/libiberty.a),$(Wc)../libiberty/pic/libiberty.a,)
+ # Note that we intentionally override the bindir supplied by ACX_LT_HOST_FLAGS
+-liblto_plugin_la_LDFLAGS = $(lt_host_flags) -module -bindir $(libexecsubdir) \
++liblto_plugin_la_LDFLAGS = $(lt_host_flags) -module -avoid-version -bindir $(libexecsubdir) \
+ 	$(if $(wildcard ../libiberty/pic/libiberty.a),,-Wc,../libiberty/libiberty.a)
+ liblto_plugin_la_DEPENDENCIES = $(if $(wildcard \
+ 	../libiberty/pic/libiberty.a),../libiberty/pic/libiberty.a,)
+--- origsrc/gcc-4.6.3/lto-plugin/Makefile.in	2012-01-03 07:15:21.000000000 -0600
++++ src/gcc-4.6.3/lto-plugin/Makefile.in	2013-11-15 00:54:39.647343800 -0600
+@@ -242,7 +242,7 @@ liblto_plugin_la_LIBADD = \
+ 	$(if $(wildcard ../libiberty/pic/libiberty.a),$(Wc)../libiberty/pic/libiberty.a,)
+ 
+ # Note that we intentionally override the bindir supplied by ACX_LT_HOST_FLAGS
+-liblto_plugin_la_LDFLAGS = $(lt_host_flags) -module -bindir $(libexecsubdir) \
++liblto_plugin_la_LDFLAGS = $(lt_host_flags) -module -avoid-version -bindir $(libexecsubdir) \
+ 	$(if $(wildcard ../libiberty/pic/libiberty.a),,-Wc,../libiberty/libiberty.a)
+ 
+ liblto_plugin_la_DEPENDENCIES = $(if $(wildcard \
