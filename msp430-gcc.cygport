@@ -1,0 +1,36 @@
+TOOLCHAIN_TARGET="msp430"
+inherit toolchain
+
+NAME="msp430-gcc"
+VERSION=4.6.3-20120406
+RELEASE=1
+CATEGORY="Devel"
+SUMMARY="GNU C compiler for MSP430 embedded toolchain"
+DESCRIPTION="The GNU Compiler Collection includes front ends for C, C++,
+Objective-C, Fortran, Java, and Ada, as well as libraries for these languages
+(libstdc++, libgcj,...)."
+REQUIRES="msp430-binutils msp430-libc"
+HOMEPAGE="http://mspgcc.sourceforge.net/"
+SRC_URI="mirror://gnu/gcc/gcc-${VERSION%-*}/gcc-${VERSION-%*}.tar.bz2"
+SRC_DIR="gcc-${VERSION%-*}"
+PATCH_URI="mirror://sourceforge/mspgcc/${NAME}-${VERSION}.patch"
+
+CYGCONF_ARGS="
+	--enable-languages=c
+	--enable-version-specific-runtime-libs
+	--disable-libssp
+	--with-system-zlib
+"
+
+src_install() {
+	cd ${B}
+	cyginstall -j1
+
+	# Remove Cygwin-host libiberty.a
+	rm -f ${D}/usr/lib/libiberty.a
+
+	# conflicts with native gcc
+	rm -fr ${D}/usr/share/{info,locale,man/man7}
+}
+
+KEEP_LA_FILES="none"
